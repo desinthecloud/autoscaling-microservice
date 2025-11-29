@@ -33,7 +33,7 @@ class ItemOut(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    return {"status": "ok", "version": "2"}
 
 @app.get("/items", response_model=List[ItemOut])
 def list_items():
