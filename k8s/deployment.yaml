@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autoscaling-microservice
+  namespace: autoscaling-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: autoscaling-microservice
+  template:
+    metadata:
+      labels:
+        app: autoscaling-microservice
+    spec:
+      containers:
+        - name: app
+          image: desinthecloud/autoscaling-microservice:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 20

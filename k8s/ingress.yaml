@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: autoscaling-microservice
+  namespace: autoscaling-demo
+spec:
+  rules:
+    - host: autoscaling-demo.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: autoscaling-microservice
+                port:
+                  number: 80
